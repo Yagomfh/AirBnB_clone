@@ -35,7 +35,6 @@ class BaseModel:
         self.updated_at = datetime.now()
         models.storage.save()
 
-
     def to_dict(self):
         """Returns a dictionary containing all keys/values of __dict__"""
         res = self.__dict__.copy()

@@ -107,11 +107,11 @@ class TestBaseModel(unittest.TestCase):
             self.assertEqual(type(json["created_at"]), str)
             c = base.created_at
             e1 = "{}-{:02d}-{:02d}T\
-{:02d}:{:02d}:{:02d}.{}".format(c.year, c.month, c.day,
+{:02d}:{:02d}:{:02d}.{:06d}".format(c.year, c.month, c.day,
                                 c.hour, c.minute, c.second, c.microsecond)
             c = base.updated_at
             e2 = "{}-{:02d}-{:02d}T\
-{:02d}:{:02d}:{:02d}.{}".format(c.year, c.month, c.day,
+{:02d}:{:02d}:{:02d}.{:06d}".format(c.year, c.month, c.day,
                                 c.hour, c.minute, c.second, c.microsecond)
             self.assertEqual(json["updated_at"], e2)
             self.assertEqual(json["created_at"], e1)

@@ -39,4 +39,3 @@ class FileStorage:
                 self.__objects[key] = BaseModel(**data[key])
         except:
             pass
-
