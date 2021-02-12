@@ -151,8 +151,9 @@ Usage: update <class name> <id> <attribute name> "<attribute value>"\n"""
 
     def default(self, line):
         """Default cmd method"""
-        fnct = {"all": self.do_all, "count": self.do_count, "show": self.do_show, 
-                "destroy": self.do_destroy, "update": self.do_update}
+        fnct = {"all": self.do_all, "count": self.do_count,
+                "show": self.do_show, "destroy": self.do_destroy,
+                "update": self.do_update}
         args = (line.replace("(", ".").replace(")", ".")
                 .replace('"', "").replace(",", "").split("."))
         cmd_args = ""
