@@ -35,6 +35,7 @@ class TestBaseDocs(unittest.TestCase):
         for func in self.base_funcs:
             self.assertTrue(len(func[1].__doc__) >= 1)
 
+
 class TestUser(unittest.TestCase):
     '''
         Testing User class

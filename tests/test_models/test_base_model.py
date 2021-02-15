@@ -34,6 +34,7 @@ class TestBaseDocs(unittest.TestCase):
         for func in self.base_funcs:
             self.assertTrue(len(func[1].__doc__) >= 1)
 
+
 class TestBaseModel(unittest.TestCase):
     """Tests to check functionality of BaseModel class"""
     def setUp(self):
@@ -62,9 +63,12 @@ class TestBaseModel(unittest.TestCase):
 
     def test_creation_order(self):
         """Test if BaseModel order creation"""
-        self.assertGreaterEqual(self.b2.created_at.microsecond, self.b1.created_at.microsecond)
-        self.assertLessEqual(self.b1.created_at.microsecond, self.b3.created_at.microsecond)
-        self.assertGreaterEqual(self.b3.created_at.microsecond, self.b2.created_at.microsecond)
+        self.assertGreaterEqual(self.b2.created_at.microsecond,
+                                self.b1.created_at.microsecond)
+        self.assertLessEqual(self.b1.created_at.microsecond,
+                             self.b3.created_at.microsecond)
+        self.assertGreaterEqual(self.b3.created_at.microsecond,
+                                self.b2.created_at.microsecond)
 
     def test_right_datetime(self):
         """Test that datetime works"""
@@ -108,11 +112,11 @@ class TestBaseModel(unittest.TestCase):
             c = base.created_at
             e1 = "{}-{:02d}-{:02d}T\
 {:02d}:{:02d}:{:02d}.{:06d}".format(c.year, c.month, c.day,
-                                c.hour, c.minute, c.second, c.microsecond)
+                                    c.hour, c.minute, c.second, c.microsecond)
             c = base.updated_at
             e2 = "{}-{:02d}-{:02d}T\
 {:02d}:{:02d}:{:02d}.{:06d}".format(c.year, c.month, c.day,
-                                c.hour, c.minute, c.second, c.microsecond)
+                                    c.hour, c.minute, c.second, c.microsecond)
             self.assertEqual(json["updated_at"], e2)
             self.assertEqual(json["created_at"], e1)
 

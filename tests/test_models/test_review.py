@@ -35,6 +35,7 @@ class TestBaseDocs(unittest.TestCase):
         for func in self.base_funcs:
             self.assertTrue(len(func[1].__doc__) >= 1)
 
+
 class TestReview(unittest.TestCase):
     def test_Review_inheritance(self):
         """tests that the Review class Inherits from BaseModel"""
