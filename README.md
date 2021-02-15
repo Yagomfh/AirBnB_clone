@@ -43,18 +43,18 @@ You can get a description of the command by running `help <command name>`.
 
 ## Examples
 
-**Create a new instance of `City`**
+**Create a new instance of `User`**
 
 ```
-(hbnb) create City
-af2924b4-5037-446d-82c1-79036153f9e9
+(hbnb) create User
+c1a6ffe1-fadb-4f91-a067-d555ea8f77ae
 ```
 
 **Show string representation of a instance**
 
 ```
 show User c1a6ffe1-fadb-4f91-a067-d555ea8f77ae
-[User] (c1a6ffe1-fadb-4f91-a067-d555ea8f77ae) {'id': 'c1a6ffe1-fadb-4f91-a067-d555ea8f77ae', 'created_at': datetime.datetime(2021, 2, 15, 10, 10, 21, 996040), 'first_name': 'Betty', 'last_name': 'Holberton', 'password': 'root', 'updated_at': datetime.datetime(2021, 2, 15, 10, 10, 21, 996056), 'email': 'airbnb@holbertonshool.com'}
+[User] (c1a6ffe1-fadb-4f91-a067-d555ea8f77ae) {'id': 'c1a6ffe1-fadb-4f91-a067-d555ea8f77ae', 'created_at': datetime.datetime(2021, 2, 15, 10, 10, 21, 996040), 'updated_at': datetime.datetime(2021, 2, 15, 10, 10, 21, 996056)}
 ```
 
 **Update instance attributes**
@@ -63,7 +63,7 @@ show User c1a6ffe1-fadb-4f91-a067-d555ea8f77ae
 (hbnb) update User c1a6ffe1-fadb-4f91-a067-d555ea8f77ae first_name Elon
 (hbnb) update User c1a6ffe1-fadb-4f91-a067-d555ea8f77ae last_name Musk
 (hbnb) show User c1a6ffe1-fadb-4f91-a067-d555ea8f77ae
-[User] (c1a6ffe1-fadb-4f91-a067-d555ea8f77ae) {'first_name': 'Elon', 'id': 'c1a6ffe1-fadb-4f91-a067-d555ea8f77ae', 'created_at': datetime.datetime(2021, 2, 15, 10, 10, 21, 996040), 'password': 'root', 'last_name': 'Musk', 'email': 'airbnb@holbertonshool.com', 'updated_at': datetime.datetime(2021, 2, 15, 10, 10, 21, 996056)}
+[User] (c1a6ffe1-fadb-4f91-a067-d555ea8f77ae) {'first_name': 'Elon', 'id': 'c1a6ffe1-fadb-4f91-a067-d555ea8f77ae', 'created_at': datetime.datetime(2021, 2, 15, 10, 10, 21, 996040), 'last_name': 'Musk', 'updated_at': datetime.datetime(2021, 2, 15, 10, 10, 21, 996056)}
 ```
 
 **Delete an instance**

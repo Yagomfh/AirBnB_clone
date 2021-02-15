@@ -108,31 +108,37 @@ Usage: all OR all <Class Name>\n"""
 adding or updating attribute (save the change into the JSON file).\n\
 Usage: update <class name> <id> <attribute name> "<attribute value>"\n"""
         args = shlex.split(arg)
-        all_objs = storage.all()
+        intatt = ["number_rooms", "number_bathrooms", "max_guest",
+                  "price_by_night"]
+        floatatt = ["latitude", "longitude"]
+        obj = args[0] + "." + args[1]
+        inst = storage.all()[obj]
         if len(args) == 0:
             print("** class name missing **")
         elif args[0] not in classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
+        elif obj not in storage.all():
+            print("** no instance found **")
         elif len(args) < 3:
             print("** attribute name missing **")
         elif len(args) < 4:
             print("** value missing **")
         else:
-            for obj_id in all_objs.keys():
-                if all_objs[obj_id].id == args[1]:
-                    if args[2] in all_objs[obj_id].__dict__:
-                        t = type(all_objs[obj_id].__dict__[args[2]])
-                        if t is int:
-                            all_objs[obj_id].__dict__[args[2]] = int(args[3])
-                        elif t is str:
-                            all_objs[obj_id].__dict__[args[2]] = args[3]
-                        else:
-                            all_objs[obj_id].__dict__[args[2]] = float(args[3])
-                        storage.save()
-                        return
-            print("** no instance found **")
+            if args[0] == "Place":
+                if args[2] in intatt:
+                    try:
+                        args[3] = int(args[3])
+                    except:
+                        args[3] = 0
+                if args[2] in floatatt:
+                    try:
+                        args[3] = floatatt(args[3])
+                    except:
+                        args[3] = 0
+            setattr(inst, args[2], str(args[3]))
+            inst.save()
 
     def do_count(self, arg):
         """Counts the number of elements in a class"""
