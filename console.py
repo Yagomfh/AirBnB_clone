@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """Console module"""
 import cmd
+import re
 import sys
+import json
 from models.engine.file_storage import FileStorage
 from models import storage
 from models.amenity import Amenity
@@ -160,17 +162,31 @@ Usage: update <class name> <id> <attribute name> "<attribute value>"\n"""
         fnct = {"all": self.do_all, "count": self.do_count,
                 "show": self.do_show, "destroy": self.do_destroy,
                 "update": self.do_update}
-        args = (line.replace("(", ".").replace(")", ".")
-                .replace('"', "").replace(",", "").split("."))
-        cmd_args = ""
-        for i in range(len(args)):
-            if i != 1:
-                cmd_args += args[i]
-            cmd_args += " "
-        try:
-            fnct[args[1]](cmd_args)
-        except:
-            print("*** Unknown syntax:", args[0])
+        args = line.replace(".", " ").replace("(", " ").replace(",\
+ ", " ", 1).replace("{", "\'{").replace("}", "}\'")
+        args = shlex.split(args, 1)
+        if len(args) == 4 and args[1] == "update":
+            Dict = line.split(" ", 1)[1].replace(")", "")
+            Dict = eval(Dict)
+            for key in Dict.keys():
+                cmd_args = "" + args[0] + " " + args[2] + "\
+ " + key + " " + str(Dict[key])
+                try:
+                    self.do_update(cmd_args)
+                except:
+                    print("*** Unknown syntax:", args[0])
+        else:
+            args = (line.replace("(", ".").replace(")", ".")
+                    .replace('"', "").replace(",", "").split("."))
+            cmd_args = ""
+            for i in range(len(args)):
+                if i != 1:
+                    cmd_args += args[i]
+                cmd_args += " "
+            try:
+                fnct[args[1]](cmd_args)
+            except:
+                print("*** Unknown syntax:", args[0])
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
