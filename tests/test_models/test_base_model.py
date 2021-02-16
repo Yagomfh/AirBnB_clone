@@ -95,7 +95,6 @@ class TestBaseModel(unittest.TestCase):
             prev_t = base.updated_at.microsecond
             base.save()
             self.assertLessEqual(prev_t, base.updated_at.microsecond)
-        """Test that save() doesn't change created_at"""
         for base in self.tests:
             creation = base.created_at
             base.save()
