@@ -34,16 +34,17 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         pass
 
-    def do_create(self, model=""):
+    def do_create(self, arg):
         """Creates a new instance of BaseModel \
 saves it (to the JSON file) and prints the id.\n\
 Usage: create <Class Name>\n"""
-        if model == "":
+        args = shlex.split(arg)
+        if len(args) == 0:
             print("** class name missing **")
-        elif model not in classes:
+        elif args[0] not in classes:
             print("** class doesn't exist **")
         else:
-            new_model = classes[model]()
+            new_model = eval(args[0] + '()')
             new_model.save()
             print(new_model.id)
 
