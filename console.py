@@ -19,6 +19,7 @@ classes = {"BaseModel": BaseModel, "User": User, "State": State,
 
 
 class HBNBCommand(cmd.Cmd):
+    """Class HBNBCommand"""
     prompt = "(hbnb) "
 
     def do_quit(self, s):
