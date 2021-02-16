@@ -56,7 +56,6 @@ instance based on the class name and id.\n\
 Usage: show <Class Name> <Object ID>\n"""
         args = arg.split()
         storage.reload()
-        all_objs = storage.all()
         if len(args) == 0:
             print("** class name missing **")
         elif args[0] not in classes:
@@ -64,11 +63,11 @@ Usage: show <Class Name> <Object ID>\n"""
         elif len(args) < 2:
             print("** instance id missing **")
         else:
-            for obj_id in all_objs.keys():
-                if all_objs[obj_id].id == args[1]:
-                    print(all_objs[obj_id])
-                    return
-            print("** no instance found **")
+            key = "{:s}.{:s}".format(args[0], args[1])
+            if key in storage.all():
+                print(storage.all()[key])
+            else:
+                print("** no instance found **")
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class \
@@ -118,7 +117,7 @@ Usage: update <class name> <id> <attribute name> "<attribute value>"\n"""
         args = shlex.split(arg)
         storage.reload()
         int_a = ["number_rooms", "number_bathrooms", "max_guest",
-                  "price_by_night"]
+                 "price_by_night"]
         float_a = ["latitude", "longitude"]
         if len(args) == 0:
             print("** class name missing **")
