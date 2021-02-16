@@ -114,21 +114,21 @@ Usage: update <class name> <id> <attribute name> "<attribute value>"\n"""
         intatt = ["number_rooms", "number_bathrooms", "max_guest",
                   "price_by_night"]
         floatatt = ["latitude", "longitude"]
-        obj = args[0] + "." + args[1]
-        inst = storage.all()[obj]
         if len(args) == 0:
             print("** class name missing **")
         elif args[0] not in classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
-        elif obj not in storage.all():
+        elif (args[0] + "." + args[1]) not in storage.all():
             print("** no instance found **")
         elif len(args) < 3:
             print("** attribute name missing **")
         elif len(args) < 4:
             print("** value missing **")
         else:
+            obj = args[0] + "." + args[1]
+            inst = storage.all()[obj]
             if args[0] == "Place":
                 if args[2] in intatt:
                     try:
