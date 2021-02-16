@@ -111,9 +111,9 @@ Usage: all OR all <Class Name>\n"""
 adding or updating attribute (save the change into the JSON file).\n\
 Usage: update <class name> <id> <attribute name> "<attribute value>"\n"""
         args = shlex.split(arg)
-        intatt = ["number_rooms", "number_bathrooms", "max_guest",
+        int_a = ["number_rooms", "number_bathrooms", "max_guest",
                   "price_by_night"]
-        floatatt = ["latitude", "longitude"]
+        float_a = ["latitude", "longitude"]
         if len(args) == 0:
             print("** class name missing **")
         elif args[0] not in classes:
@@ -128,20 +128,21 @@ Usage: update <class name> <id> <attribute name> "<attribute value>"\n"""
             print("** value missing **")
         else:
             obj = args[0] + "." + args[1]
-            inst = storage.all()[obj]
+            i = storage.all()[obj]
             if args[0] == "Place":
-                if args[2] in intatt:
+                if args[2] in int_a:
                     try:
                         args[3] = int(args[3])
                     except:
                         args[3] = 0
-                if args[2] in floatatt:
+                if args[2] in float_a:
                     try:
                         args[3] = floatatt(args[3])
                     except:
                         args[3] = 0
-            setattr(inst, args[2], str(args[3]))
-            inst.save()
+            setattr(i, args[2], str(args[3]))
+            i.save()
+            storage.reload()
 
     def do_count(self, arg):
         """Counts the number of elements in a class"""
