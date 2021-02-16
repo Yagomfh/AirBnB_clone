@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 """Console module"""
 import cmd
-import re
-import sys
 import json
 from models.engine.file_storage import FileStorage
 from models import storage
@@ -32,19 +30,23 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def emptyline(self):
-        pass
+        """Empty line"""
+        return False
 
     def do_create(self, arg):
         """Creates a new instance of BaseModel \
 saves it (to the JSON file) and prints the id.\n\
 Usage: create <Class Name>\n"""
         args = shlex.split(arg)
+        storage.reload()
         if len(args) == 0:
             print("** class name missing **")
+            return False
         elif args[0] not in classes:
             print("** class doesn't exist **")
+            return False
         else:
-            new_model = eval(args[0] + '()')
+            new_model = classes[args[0]]()
             new_model.save()
             print(new_model.id)
 
@@ -53,6 +55,7 @@ Usage: create <Class Name>\n"""
 instance based on the class name and id.\n\
 Usage: show <Class Name> <Object ID>\n"""
         args = arg.split()
+        storage.reload()
         all_objs = storage.all()
         if len(args) == 0:
             print("** class name missing **")
@@ -72,6 +75,7 @@ Usage: show <Class Name> <Object ID>\n"""
 name and id (save the change into the JSON file)\n\
 Usage: destroy <Class Name> <Object ID>\n"""
         args = arg.split()
+        storage.reload()
         all_objs = storage.all()
         if len(args) == 0:
             print("** class name missing **")
@@ -92,6 +96,7 @@ Usage: destroy <Class Name> <Object ID>\n"""
 based or not on the class name.\n\
 Usage: all OR all <Class Name>\n"""
         args = arg.split()
+        storage.reload()
         all_objs = storage.all()
         res = []
         if len(args) == 1 and args[0] not in classes:
@@ -111,6 +116,7 @@ Usage: all OR all <Class Name>\n"""
 adding or updating attribute (save the change into the JSON file).\n\
 Usage: update <class name> <id> <attribute name> "<attribute value>"\n"""
         args = shlex.split(arg)
+        storage.reload()
         int_a = ["number_rooms", "number_bathrooms", "max_guest",
                   "price_by_night"]
         float_a = ["latitude", "longitude"]
@@ -147,6 +153,7 @@ Usage: update <class name> <id> <attribute name> "<attribute value>"\n"""
     def do_count(self, arg):
         """Counts the number of elements in a class"""
         args = arg.split()
+        storage.reload()
         all_objs = storage.all()
         count = 0
         if len(args) == 0:
