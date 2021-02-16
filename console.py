@@ -58,10 +58,13 @@ Usage: show <Class Name> <Object ID>\n"""
         storage.reload()
         if len(args) == 0:
             print("** class name missing **")
+            return False
         elif args[0] not in classes:
             print("** class doesn't exist **")
+            return False
         elif len(args) < 2:
             print("** instance id missing **")
+            return False
         else:
             key = "{:s}.{:s}".format(args[0], args[1])
             if key in storage.all():
@@ -75,20 +78,22 @@ name and id (save the change into the JSON file)\n\
 Usage: destroy <Class Name> <Object ID>\n"""
         args = arg.split()
         storage.reload()
-        all_objs = storage.all()
         if len(args) == 0:
             print("** class name missing **")
+            return False
         elif args[0] not in classes:
             print("** class doesn't exist **")
+            return False
         elif len(args) < 2:
             print("** instance id missing **")
+            return False
         else:
-            for obj_id in all_objs.keys():
-                if all_objs[obj_id].id == args[1]:
-                    del all_objs[obj_id]
-                    storage.save()
-                    return
-            print("** no instance found **")
+            key = "{:s}.{:s}".format(args[0], args[1])
+            if key in storage.all():
+                storage.all().pop(key)
+                storage.save()
+            else:
+                print("** no instance found **")
 
     def do_all(self, arg):
         """Prints all string representation of all instances \
@@ -96,19 +101,19 @@ based or not on the class name.\n\
 Usage: all OR all <Class Name>\n"""
         args = arg.split()
         storage.reload()
-        all_objs = storage.all()
-        res = []
-        if len(args) == 1 and args[0] not in classes:
-            print("** class doesn't exist **")
-        elif len(args) == 0:
-            for obj_id in all_objs.keys():
-                res.append(all_objs[obj_id].__str__())
-            print(res)
+        objects = []
+        if len(args) < 1:
+            for obj in storage.all().values():
+                objects.append(str(obj))
+            print(objects)
+        elif args[0] in classes:
+            objects = []
+            for key in storage.all():
+                if args[0] in key:
+                    objects.append(str(storage.all()[key]))
+            print(objects)
         else:
-            for obj_id in all_objs.keys():
-                if all_objs[obj_id].__class__.__name__ == args[0]:
-                    res.append(all_objs[obj_id].__str__())
-            print(res)
+            print("** class doesn't exist **")
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id by \
@@ -121,33 +126,38 @@ Usage: update <class name> <id> <attribute name> "<attribute value>"\n"""
         float_a = ["latitude", "longitude"]
         if len(args) == 0:
             print("** class name missing **")
+            return False
         elif args[0] not in classes:
             print("** class doesn't exist **")
+            return False
         elif len(args) < 2:
             print("** instance id missing **")
+            return False
         elif (args[0] + "." + args[1]) not in storage.all():
             print("** no instance found **")
+            return False
         elif len(args) < 3:
             print("** attribute name missing **")
+            return False
         elif len(args) < 4:
             print("** value missing **")
+            return False
         else:
-            obj = args[0] + "." + args[1]
-            i = storage.all()[obj]
-            if args[0] == "Place":
-                if args[2] in int_a:
+            key = "{:s}.{:s}".format(args[0], args[1])
+            if key in storage.all():
+                obj = storage.all()[key]
+                try:
+                    args[3] = type(getattr(obj, args[2]))(args[3])
+                except:
                     try:
                         args[3] = int(args[3])
                     except:
-                        args[3] = 0
-                if args[2] in float_a:
-                    try:
-                        args[3] = floatatt(args[3])
-                    except:
-                        args[3] = 0
-            setattr(i, args[2], str(args[3]))
-            i.save()
-            storage.reload()
+                        try:
+                            args[3] = float(args[3])
+                        except:
+                            pass
+                setattr(obj, args[2], args[3])
+                obj.save()
 
     def do_count(self, arg):
         """Counts the number of elements in a class"""
