@@ -19,7 +19,7 @@ button {
     float: right;
     margin: auto;
     top: 50%;
-    margin-right: 30px;
+    margin-right: 20px;
 }
 
 button:hover {
@@ -28,7 +28,7 @@ button:hover {
 
 .locations, .amenities {
     height: 100%;
-    width: 35%;
+    width: 34%;
 }
 
 .locations {
@@ -88,4 +88,10 @@ ul{
 .amenities:hover > .popover{
     visibility: visible;
     display:block;
+}
+
+@media only screen and (max-width: 600px) {
+    .popover ul {
+        padding: 20px 0;
+    }
 }
